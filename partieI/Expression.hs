@@ -18,8 +18,8 @@ module Expression where
     | Variable Key
     | Constant Value
     deriving (Show)
-  --exp = Mul (Add (Constant 2) (Expo (Variable "x") (Constant 2))) (Constant 1)
-  --exp = 2*(x^2+1)
+  --exp = Mul (Add (Constant 2) (Expo (Variable "x") (Constant 2))) (Not (Constant 1))
+  --exp = (2+x^2)*(-1)
 
   data Expr = Val Int
     | Add2 Expr Expr
@@ -36,8 +36,13 @@ module Expression where
 
   getValue :: Key -> Store -> Value
   getValue key (Store store) = snd $ head (findTuple key (Store store))
-     
-   --évaluation du somme
+
+  --évaluation de la negation
+  evaExp (Store store) (Not exp) = 
+    let x = evaExp (Store store) exp
+    in 0-x
+
+  --évaluation du somme
   evaExp (Store store) (Add left right) = 
     let x = evaExp (Store store) left
         y = evaExp (Store store) right
