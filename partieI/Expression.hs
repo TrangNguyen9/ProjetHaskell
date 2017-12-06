@@ -16,9 +16,10 @@ module Expression where
     | Mul Expression Expression
     | Expo Expression Expression
     | Variable Key
-    | Constant Value
+    | Constant Value  
     deriving (Show)
   --exp = Mul (Add (Constant 2) (Expo (Variable "x") (Constant 2))) (Not (Constant 1))
+  --exp = Add (Constant 2) (Variable "x")
   --exp = (2+x^2)*(-1)
 
   data Store = Store [(Key, Value)] deriving (Show)
@@ -34,12 +35,6 @@ module Expression where
   getValue :: Key -> Store -> Value
   getValue key (Store store) = snd $ head (findTuple key (Store store))
 
-  --facon 2
-  -- getValue :: Key -> Store -> Float
-  -- getValue var (Store xs) = case filter ((var ==).fst) xs of
-  --       [] -> error "Variable not found"
-  --       result -> snd $ head result  
-
   evaExp :: Store -> Expression -> Float
   --évaluation de la negation (-)
   evaExp (Store store) (Not exp) = 
@@ -50,7 +45,7 @@ module Expression where
   evaExp (Store store) (Add left right) = 
     let x = evaExp (Store store) left
         y = evaExp (Store store) right
-    in x + y
+    in x + y  
   
   --évaluation du multiplication (*)
   evaExp (Store store) (Mul left right) = 
@@ -73,4 +68,4 @@ module Expression where
   eval :: Store -> Expression -> Maybe Float 
   eval (Store store) str = case (unsafeCleanup $ evaExp (Store store) str) of
                                                  Nothing -> Nothing
-                                                 Just result -> Just result                                                
+                                                 result -> result                                                
