@@ -10,7 +10,7 @@ module EmvInteractif where
 
     main :: IO()
     main = 
-        putStr "Rentre une expression (en Expression) ou une commande: ">>
+        putStr "Rentre une String pour converir par Expression: ">>
         getLine >>= \xs ->
         putStr (show (parseExpression xs)) >>
      --   putStr (show (test xs)) >>
