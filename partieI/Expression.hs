@@ -70,8 +70,7 @@ module Expression where
   --évaluation de variable
   evaExp (Store store) (Variable key) = getValue key (Store store)
 
-  eval :: Store -> Expression -> Maybe Float
-   
+  eval :: Store -> Expression -> Maybe Float 
   eval (Store store) str = case (unsafeCleanup $ evaExp (Store store) str) of
                                                  Nothing -> Nothing
                                                  Just result -> Just result                                                
